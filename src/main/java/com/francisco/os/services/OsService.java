@@ -51,8 +51,8 @@ public class OsService {
 
 	public OS create(@Valid OSDTO obj) {
 		
+		obj.setDataAbertura(LocalDateTime.now());
 		OS newObj = fromDTO(obj);
-		newObj.setDataAbertura(LocalDateTime.now());
 		
 		return repository.save(newObj);
 	}
@@ -61,7 +61,7 @@ public class OsService {
 	public OS update(@Valid OSDTO obj) {
 
 
-		findById(obj.getId());
+		obj.setDataAbertura(findById(obj.getId()).getDataAbertura());
 		
 		OS newObj = fromDTO(obj);
 		
@@ -79,17 +79,19 @@ public class OsService {
 		
 		
 		OS newObj = new OS();
-		try {
+		
+		
+		/*try {
 		newObj.setDataAbertura(findById(obj.getId()).getDataAbertura());
 		} catch (InvalidDataAccessApiUsageException ex) { 
 			}
-		
+		*/
 		newObj.setId(obj.getId());
 		
 		newObj.setObservacoes(obj.getObservacoes());
 		newObj.setPrioridade(Prioridade.toEnum(obj.getPrioridade()));
 		newObj.setStatus(Status.toEnum(obj.getStatus()));
-		
+		newObj.setDataAbertura(obj.getDataAbertura());
 		newObj.setServico(servico);
 		newObj.setTecnico(tecnico);
 		newObj.setCliente(cliente);
